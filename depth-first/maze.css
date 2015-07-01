@@ -1,0 +1,72 @@
+body {
+  padding: 10px;
+}
+
+h1, h2 {
+  text-align: center;
+}
+#board{
+  margin: 0 auto;
+}
+
+#board td{
+  border: 2px solid #000;
+  width: 25px;
+  height: 25px;
+}
+#board td >p {
+  max-width : 90%;
+  max-height: 90%;
+  margin: 0px 0px;
+  font-size: 0.3em;
+  text-align: center;
+}
+
+
+#board td.bottom { border-bottom: none }
+#board td.top { border-top: none }
+#board td.left { border-left: none }
+#board td.right { border-right: none }
+#board td.visited { background: skyblue}
+#board td.revisited {background: rgb(235, 135, 174)}
+#board td.currentCell {background: rgb(196, 232, 202)}
+#board td.start {background: green;}
+#board td.end { background: red;}
+
+td.dead {
+  background-color: #fff;
+}
+
+#control_panel {
+  margin: 10px auto;
+  text-align: center;
+}
+
+#shape_loader {
+  margin: 0 auto;
+  display: inline;
+}
+
+/*
+upload file button styling courtesty of
+http://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3/
+*/
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}

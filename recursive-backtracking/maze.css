@@ -11,10 +11,16 @@ h1, h2 {
 
 #board td{
   border: 2px solid #000;
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
 }
-
+#board td >p {
+  max-width : 90%;
+  max-height: 90%;
+  margin: 0px 0px;
+  font-size: 0.3em;
+  text-align: center;
+}
 
 
 #board td.bottom { border-bottom: none }

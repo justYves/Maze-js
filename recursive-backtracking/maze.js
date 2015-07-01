@@ -1,12 +1,14 @@
-function Maze(width,height) {
-  this.width =  width;
+function Maze(width, height) {
+  this.width = width;
   this.height = height;
   this.completed = false;
   this.cells = [];
   this.visited = [];
-  this.stepInterval = 10;
+  this.stepInterval = 0;
+  this.showDistance = true;
   this.i = 0;
 
+  //Create the model
   for (var i = 0; i < this.width; i++) {
     this.cells[i] = [];
     for (var j = 0; j < this.height; j++) {
@@ -14,7 +16,7 @@ function Maze(width,height) {
     }
   }
 
-  this.currentCell = this.cells[0][0];
+  this.currentCell = this.start = this.setEntry();
 }
 
 Maze.prototype.visit = function(cell) {
@@ -27,6 +29,18 @@ Maze.prototype.visit = function(cell) {
   }
 };
 
+Maze.prototype.setEntry = function() {
+
+  var x = Math.floor(Math.random() * 2) * (this.width-1);
+  var y = Math.floor(Math.random() * this.width);
+
+  var rand = Math.floor(Math.random()*2);
+  return  (rand) ? this.getCell(x,y) : this.getCell(y,x);
+};
+
+Maze.prototype.setExit = function() {}
+
+//HTML ONLY
 Maze.prototype.create = function() {
   // create <table> element
   var mazeTable = document.createElement("tbody");
@@ -51,19 +65,18 @@ Maze.prototype.create = function() {
   this.setupBoardEvents();
 };
 
+//Event for button
 Maze.prototype.setupBoardEvents = function() {
 
   document.getElementById('step_btn').onclick = this.step.bind(this);
-
   document.getElementById('clear_btn').onclick = this.clear.bind(this);
-
   // document.getElementById('reset_btn').onclick = this.randomize.bind(this);
-
   document.getElementById('play_btn').onclick = this.enableAutoPlay.bind(this);
 
   // document.getElementById('shape_loader').onchange = this.loadShape.bind(this);
 };
 
+//MAP MazeCells to hmtl
 Maze.prototype.mapCells = function() {
   for (var i = 0; i < this.width; i++) {
     for (var j = 0; j < this.height; j++) {
@@ -71,19 +84,20 @@ Maze.prototype.mapCells = function() {
     }
   }
 };
+
 Maze.prototype.step = function() {
 
   if (!this.completed) {
     this.visit(this.currentCell);
     var neighbors = this.getNeighbor(this.currentCell);
     if (neighbors.length > 0) {
-      this.i++;
       this.visited.push(this.currentCell);
-      this.currentCell.location.content = this.i ;
       var i = Math.floor(Math.random() * neighbors.length);
 
       //Need to bring down the wall;
       var chosenNeighbor = neighbors[i];
+      chosenNeighbor.value = this.currentCell.value + 1;
+      this.showDistance ? chosenNeighbor.location.innerHTML = "<p>" + chosenNeighbor.value + "</p>" : "";
       this.updateWall(this.currentCell, chosenNeighbor);
       this.currentCell = chosenNeighbor;
     } else {
@@ -144,8 +158,8 @@ Maze.prototype.play = function() {
   this.intervalId = setInterval(this.step.bind(this), this.stepInterval);
 };
 
-Maze.prototype.clear = function(){
-  maze = new Maze(60,30);
+Maze.prototype.clear = function() {
+  maze = new Maze(60, 30);
   maze.create();
   maze.mapCells();
 }
@@ -174,6 +188,7 @@ function Cell(x, y) {
   this.border = [1, 1, 1, 1];
   this.x = x;
   this.y = y;
+  this.value = 0;
   this.visited = false;
 }
 
@@ -199,6 +214,6 @@ Maze.prototype.getCell = function(x, y) {
   return false;
 };
 
-maze = new Maze(60,30);
+maze = new Maze(40, 40);
 maze.create();
 maze.mapCells();
