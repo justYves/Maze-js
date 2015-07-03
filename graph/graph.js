@@ -1,5 +1,6 @@
 var Graph = function(){
   this.nodeList = [];
+  this.edges
 };
 
 
